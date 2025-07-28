@@ -4,8 +4,8 @@ export default {
   ssr: false,
 
   head: {
-    titleTemplate: '%s - laica-qr-app',
-    title: 'laica-qr-app',
+    titleTemplate: '%s - LaicaG',
+    title: 'QR Code Scanner',
     htmlAttrs: { lang: 'en' },
     meta: [
       { charset: 'utf-8' },
@@ -19,7 +19,7 @@ export default {
   css: [],
 
   plugins: [
-    { src: '~/plugins/html5-qrcode.client.js', mode: 'client' } // ✅ Added plugin
+     { src: '~/plugins/html5-qrcode.client.js', mode: 'client' }
   ],
 
   components: true,
@@ -34,35 +34,34 @@ export default {
   ],
 
   axios: {
-    baseURL: 'http://localhost:8000',
-    credentials: true
+    baseURL: 'http://localhost:8000', // Your backend API base URL
   },
 
   auth: {
     redirect: {
-      login: '/auth/signin',
-      logout: '/auth/signin',
-      callback: '/auth/callback',
-      home: '/'
+      login: '/auth/signin',         // Where to redirect if user is not authenticated
+      logout: '/auth/signin',        // After logout
+      callback: '/auth/callback', // Callback URL after Google redirects back
+      home: '/'  // After successful login
     },
-    autoFetchUser: false,
+    autofetchUser: false,
     strategies: {
       google: {
         clientId: '149773114344-g071sfiru9cjvqj1m63bt711v15pnua5.apps.googleusercontent.com',
         scheme: 'oauth2',
         endpoints: {
-          authorization: 'https://accounts.google.com/o/oauth2/auth',
-          userInfo: 'https://www.googleapis.com/oauth2/v3/userinfo'
+         authorization: 'https://accounts.google.com/o/oauth2/auth',
+         userinfo: 'https://www.googleapis.com/oauth2/v3/userinfo',
         },
         token: {
           property: 'access_token',
           type: 'Bearer',
-          maxAge: 1800
+          maxAge: 1800,
         },
-        responseType: 'token id_token',
+        responseType: "token id_token",
         scope: ['openid', 'profile', 'email'],
-        redirectUri: 'http://localhost:3000/auth/callback',
-        codeChallengeMethod: ''
+        redirectUri: process.env.REDIRECT_URI,
+        codeChallengeMethod: "",
       }
     }
   },
